@@ -7,6 +7,7 @@ import ar.fgsoruco.opencv4.factory.imagefilter.*
 import ar.fgsoruco.opencv4.factory.miscellaneous.AdaptiveThresholdFactory
 import ar.fgsoruco.opencv4.factory.miscellaneous.DistanceTransformFactory
 import ar.fgsoruco.opencv4.factory.miscellaneous.ThresholdFactory
+import ar.fgsoruco.opencv4.factory.houghcircles.HoughCirclesFactory
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
@@ -265,6 +266,29 @@ class Opencv4Plugin: FlutterPlugin, MethodCallHandler {
           result.error("OpenCV-Error", "Android: "+e.message, e)
         }
       }
+      // houghCircles
+      "houghCircles" -> {
+        try {
+          HoughCirclesFactory.process(
+                  call.argument<Int>("pathType") as Int,
+                  call.argument<String>("pathString") as String,
+                  call.argument<ByteArray>("data") as ByteArray,
+                  call.argument<Int>("method") as Int,
+                  call.argument<Double>("dp") as Double,
+                  call.argument<Double>("minDist") as Double,
+                  call.argument<Double>("param1") as Double,
+                  call.argument<Double>("param2") as Double,
+                  call.argument<Int>("centerWidth") as Int,
+                  call.argument<String>("centerColor") as String,
+                  call.argument<Int>("circleWidth") as Int,
+                  call.argument<String>("circleColor") as String,
+                  call.argument<Int>("minRadius") as Int,
+                  call.argument<Int>("maxRadius") as Int,
+                  result)
+        } catch (e: Exception) {
+          result.error("OpenCV-Error", "--> 290 HoughCirclesFactory Android: "+e.message, e)
+        }
+      }
       //Module: Miscellaneous Image Transformations
       "adaptiveThreshold" -> {
         try {
@@ -279,7 +303,7 @@ class Opencv4Plugin: FlutterPlugin, MethodCallHandler {
                   call.argument<Double>("constantValue") as Double,
                   result)
         } catch (e: Exception) {
-          result.error("OpenCV-Error", "Android: "+e.message, e)
+          result.error("OpenCV-Error", "--> 306 AdaptiveThresholdFactory Android: "+e.message, e)
         }
       }
       "distanceTransform" -> {
